@@ -1,0 +1,117 @@
+<?php // include function file
+require_once('functions/DatabaseClass.php');
+
+//Define variables and initialize with empty values
+$username = $email = $password = $confirm_password = "";
+$username_err = $email_err = $password_err = $confirm_password_err = "";
+
+// Processing form data when form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST")
+{
+    $db_connect = new DatabaseClass("localhost", "blog", "root", "");
+
+    if(isset($_POST['signup']))
+    {
+        //Check if username is empty
+        if(empty(trim($_POST["username"])))
+        {
+            $username_err = "Please enter a username.";
+        }
+        else
+        {
+            $username = trim($_POST["username"]);
+            $sql = "SELECT id FROM users WHERE username = :username";
+            $stmt = $db_connect->Select($sql, ['username' => $username]);
+            if ($stmt->rowCount() == 1)
+            {
+                $username_err = "This username is aleady taken.";
+            }
+            else
+            {
+                $username = trim($_POST["username"]);
+            }
+            unset($stmt);
+        }
+
+        //check if password is empty
+        if(empty(trim($_POST["password"])))
+        {
+            $password_err = "Please enter a password.";
+        }
+        elseif(strlen(trim($_POST['password'])) < 6)
+        {
+            $password_err = "Password must have atleast 6 characters.";
+        }
+        else
+        {
+            $password = trim($_POST['password']);
+        }
+
+        // Validate confirm password
+        if(empty(trim($_POST["confirm_password"])))
+        {
+            $confirm_password_err = "Please confirm password.";
+        }
+        else
+        {
+            $confirm_password = trim($_POST['confirm_password']);
+            if (empty($password_err) && ($password != $confirm_password))
+            {
+                $confirm_password_err = "Password did not match.";
+            }
+        }
+        
+        //validate credentials
+        if(empty($username_err) && empty($password_err) && empty($confirm_password_err))
+        {
+            $sql = "INSERT INTO users (username, password) VALUES (:username, :password)";
+            
+            $stmt = $db->Insert($sql, ['username' => $username, 'password' => $password]);
+            if($stmt)
+            {
+                // Redirect to login page
+                header("location: #login.php");
+            }
+            else
+            {
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+
+            // Close statement
+            unset($stmt);
+        }
+    }
+
+    // Close connection
+    unset($pdo);
+}
+
+?>
+
+                    <?php
+                        // Populate data from the database
+                        $sql = "SELECT * FROM posts";
+                        $stmt = $db_connect->Select($sql);
+                        foreach ($stmt as $post)
+                        {
+                            $id = $db_connect->Select("SELECT username FROM users WHERE id = :id", ['id' => $post['user_id']])
+                    ?>
+                            <div class="col-sm-12 col-md-4 col-lg-6">
+                                <img src="<?php echo $post["image"]; ?>" alt="">
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <h3><?php echo $post['title']; ?></h3>
+                                <p><?php echo $post['body']; ?></p>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6 col-lg-6">
+                                        <p><?php echo date("F j, Y ", strtotime($post['created_at'])); ?></p>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6">
+                                        <p>Posted by: <span style="color: #40c4ff;"><?php echo $id[0]['username']; ?></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                    <?php
+                        }
+                    ?>

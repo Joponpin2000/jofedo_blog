@@ -1,94 +1,9 @@
 <?php
-// include function file
-require_once('functions/DatabaseClass.php');
+require_once("functions/PostsClass.php");
 
-//Define variables and initialize with empty values
-$username = $email = $password = $confirm_password = "";
-$username_err = $email_err = $password_err = $confirm_password_err = "";
-
-// Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST")
-{
-    $db_connect = new DatabaseClass("localhost", "blog", "root", "");
-
-    if(isset($_POST['signup']))
-    {
-        //Check if username is empty
-        if(empty(trim($_POST["username"])))
-        {
-            $username_err = "Please enter a username.";
-        }
-        else
-        {
-            $username = trim($_POST["username"]);
-            $sql = "SELECT id FROM users WHERE username = :username";
-            $stmt = $db_connect->Select($sql, ['username' => $username]);
-            if ($stmt->rowCount() == 1)
-            {
-                $username_err = "This username is aleady taken.";
-            }
-            else
-            {
-                $username = trim($_POST["username"]);
-            }
-            unset($stmt);
-        }
-
-        //check if password is empty
-        if(empty(trim($_POST["password"])))
-        {
-            $password_err = "Please enter a password.";
-        }
-        elseif(strlen(trim($_POST['password'])) < 6)
-        {
-            $password_err = "Password must have atleast 6 characters.";
-        }
-        else
-        {
-            $password = trim($_POST['password']);
-        }
-
-        // Validate confirm password
-        if(empty(trim($_POST["confirm_password"])))
-        {
-            $confirm_password_err = "Please confirm password.";
-        }
-        else
-        {
-            $confirm_password = trim($_POST['confirm_password']);
-            if (empty($password_err) && ($password != $confirm_password))
-            {
-                $confirm_password_err = "Password did not match.";
-            }
-        }
-        
-        //validate credentials
-        if(empty($username_err) && empty($password_err) && empty($confirm_password_err))
-        {
-            $sql = "INSERT INTO users (username, password) VALUES (:username, :password)";
-            
-            $stmt = $db->Insert($sql, ['username' => $username, 'password' => $password]);
-            if($stmt)
-            {
-                // Redirect to login page
-                header("location: #login.php");
-            }
-            else
-            {
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-
-            // Close statement
-            unset($stmt);
-        }
-    }
-
-    // Close connection
-    unset($pdo);
-}
+$db_connect = new Posts;
 
 ?>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -132,7 +47,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     </div>
                     <nav>
                         <ul>
-                            <li><a class="active" href="index.html">Home</a></li>
+                            <li><a class="active" href="index.php">Home</a></li>
                             <li><a href="">News</a></li>
                             <li><a href="">About</a></li>
                             <li><a href="">Contact</a></li>
@@ -183,29 +98,37 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
         <section class="news">
             <div class="container">
-                <h2>Latest News</h2>
                 <div class="row">
-                    <div class="col-sm-12 col-md-4 col-lg-4">
-                        <div class="news-item">
-                            <div class="thumbnail">
-                                <img src="images/1.jpg"/>
-                            </div>
-                            <div class="caption">
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-6 col-lg-6">
-                                        <p><i class="fa fa-comment"></i> 90 comments</p>
-                                    </div>
-                                    <div class="col-sm-12 col-md-6 col-lg-6">
-                                        <p>3rd June 12:00</p>
-                                    </div>
-    
+                    <?php
+                        // Populate data from the database
+                        $sql = "SELECT * FROM posts";
+                        $stmt = $db_connect->Select($sql);
+                        foreach ($stmt as $post)
+                        {
+                    ?>
+                        <div class="col-sm-12 col-md-4 col-lg-4">
+                            <div class="news-item">
+                                <div class="thumbnail">
+                                    <img src="<?php echo "images/" . $post["image"]; ?>"/>
                                 </div>
-                                <h4>Contact Us</h4>
-                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem.</p>
-                                <a href="" class="btn">Read more</a>
+                                <div class="caption">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <p><i class="fa fa-comment"></i> 90 comments</p>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <p><?php echo date("F j, Y ", strtotime($post['created_at'])); ?></p>
+                                        </div>
+                                    </div>
+                                    <h4><?php echo $post['title']; ?></h4>
+                                    <p><?php echo $post['body']; ?></p>
+                                    <a href="single_post.php?post-slug=<?php echo $post['slug']?>" class="btn">Read more</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php
+                        }
+                    ?>
                 </div>
             </div>
         </section>
