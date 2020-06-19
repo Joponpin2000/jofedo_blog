@@ -40,6 +40,14 @@ $db_connect = new DatabaseClass("localhost", "blog", "root", "");
         <script src="js/bootstrap.min.js"></script>
     </head>
     <body>
+        <!-- LOADER -->
+        <div id="preloader">
+            <div id="main-ld">
+                <div id="loader"></div>  
+            </div>
+        </div><!-- end loader -->
+        <!-- END LOADER -->
+
         <div class="bg">
             <header id="sticker">
                 <div class="container">
