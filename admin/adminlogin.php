@@ -70,8 +70,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         <meta name="author" content="">
 
         <!-- Site Icons -->
-        <link rel="shortcut icon" href="images/logo_3.png" type="image/x-icon" />
-        <link rel="apple-touch-icon" href="images/logo_2.png">
+        <link rel="shortcut icon" href="../images/logo_3.png" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="../images/logo_2.png">
 
         <title>Jofedo.com</title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -79,10 +79,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         
         <link href="../css/bootstrap.min.css" rel="stylesheet" />
-        <link rel="../stylesheet" href="css/animate.css" />
+        <link rel="stylesheet" href="../css/animate.css" />
         <link href="../fonts/font-awesome.min.css" rel="stylesheet">
-        <link rel="../stylesheet" href="css/owl.carousel.min.css" />
-        <link rel="../stylesheet" href="css/owl.theme.default.min.css" />
+        <link rel="stylesheet" href="../css/owl.carousel.min.css" />
+        <link rel="stylesheet" href="../css/owl.theme.default.min.css" />
         <link rel="stylesheet" href="style.css" />
     
 
@@ -92,6 +92,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         <script src="../js/bootstrap.min.js"></script>
     </head>
     <body>
+            <!-- LOADER -->
+            <div id="preloader">
+                <div id="main-ld">
+                    <div id="loader"></div>  
+                </div>
+            </div><!-- end loader -->
+            <!-- END LOADER -->
+
+
             <div class="center-block" style="margin: 100px auto; width: 70%;">
                 <div class="container">
                     <div class="row">
@@ -126,6 +135,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
             </div><!-- end container -->
         </div><!-- end copyrights -->
     
-        <script src="js/custom.js"></script>
+        <script src="../js/custom.js"></script>
     </body>
 </html>

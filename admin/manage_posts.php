@@ -27,7 +27,7 @@ if (isset($_GET['id']) && (trim($_GET['id']) != ''))
     $sql = "SELECT * FROM posts WHERE id = :id ";
     $stmt = $db_connect->Select($sql, ["id" => $id]);
 
-    if ($stmt->rowCount() == 1)
+    if ($stmt)
     {
         $title = $stmt[0]['title'];    
         $image = $stmt[0]['image'];    
@@ -87,7 +87,7 @@ if(isset($_POST['submit']))
             
             // Execute an insert statement
             $sql = "INSERT INTO posts (title, body, image) VALUES (:title, :body, :image)";
-            $stmt = $db_connect->Update($sql, ['title' => $title, 'body' => $body, 'image' => $image, 'id' => $id]);
+            $stmt = $db_connect->Update($sql, ['title' => $title, 'body' => $body, 'image' => $image]);
 
             // Close statement
             unset($stmt);
@@ -115,8 +115,8 @@ unset($pdo);
         <meta name="author" content="">
 
         <!-- Site Icons -->
-        <link rel="shortcut icon" href="images/logo_3.png" type="image/x-icon" />
-        <link rel="apple-touch-icon" href="images/logo_2.png">
+        <link rel="shortcut icon" href="../images/logo_3.png" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="../images/logo_2.png">
 
         <title>Jofedo.com</title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -124,10 +124,10 @@ unset($pdo);
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         
         <link href="../css/bootstrap.min.css" rel="stylesheet" />
-        <link rel="../stylesheet" href="css/animate.css" />
+        <link rel="stylesheet" href="../css/animate.css" />
         <link href="../fonts/font-awesome.min.css" rel="stylesheet">
-        <link rel="../stylesheet" href="css/owl.carousel.min.css" />
-        <link rel="../stylesheet" href="css/owl.theme.default.min.css" />
+        <link rel="stylesheet" href="../css/owl.carousel.min.css" />
+        <link rel="stylesheet" href="../css/owl.theme.default.min.css" />
         <link rel="stylesheet" href="style.css" />
     
 
@@ -137,6 +137,15 @@ unset($pdo);
         <script src="../js/bootstrap.min.js"></script>
     </head>
     <body>
+                <!-- LOADER -->
+        <div id="preloader">
+            <div id="main-ld">
+                <div id="loader"></div>  
+            </div>
+        </div><!-- end loader -->
+        <!-- END LOADER -->
+
+
             <div class="wrapper">
                 <nav id="sidebar">
                     <div class="sidebar-header">
@@ -157,7 +166,7 @@ unset($pdo);
                 <div id="content" style="padding-left: 20px; width: 100vw">
                     <nav class="navbar navbar-expand-lg navbar-light bg-light">
                         <div class="container-fluid">
-                            <button class="btn btn-warning" type="button" id="sidebarCollapse" style="background: #7386D5;">&#9776;</button>
+                            <button class="btn" type="button" id="sidebarCollapse" style="background: #7386D5;">&#9776;</button>
                         </div>
                     </nav>
                     <div class="container">
@@ -178,7 +187,7 @@ unset($pdo);
                                 </div>
                                 <div class="form-group">
                                     <label for="body" class="form-control-label">Body</label>
-                                    <textarea name="body" class="form-control" placeholder="Enter post body"><?php echo $body ?></textarea>
+                                    <textarea name="body" class="form-control" placeholder="Enter post body" required><?php echo $body ?></textarea>
                                 </div>
                                 <button type="submit" name="submit" class="btn btn-warning btn-block">Submit</button>
                                 <span class="help-block" style="color:red;"><?php echo $msg; ?></span>
@@ -202,6 +211,6 @@ unset($pdo);
 
             <a href="#" id="scroll-to-top" class="dmtop global-radius"><i class="fa fa-angle-up"></i></a>
 
-            <script src="js/custom.js"></script>
+            <script src="../js/custom.js"></script>
     </body>
 </html>

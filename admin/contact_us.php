@@ -46,8 +46,8 @@ $result = $db_connect->Select($sql);
         <meta name="author" content="">
 
         <!-- Site Icons -->
-        <link rel="shortcut icon" href="images/logo_3.png" type="image/x-icon" />
-        <link rel="apple-touch-icon" href="images/logo_2.png">
+        <link rel="shortcut icon" href="../images/logo_3.png" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="../images/logo_2.png">
 
         <title>Jofedo.com</title>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -55,10 +55,10 @@ $result = $db_connect->Select($sql);
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         
         <link href="../css/bootstrap.min.css" rel="stylesheet" />
-        <link rel="../stylesheet" href="css/animate.css" />
+        <link rel="stylesheet" href="../css/animate.css" />
         <link href="../fonts/font-awesome.min.css" rel="stylesheet">
-        <link rel="../stylesheet" href="css/owl.carousel.min.css" />
-        <link rel="../stylesheet" href="css/owl.theme.default.min.css" />
+        <link rel="stylesheet" href="../css/owl.carousel.min.css" />
+        <link rel="stylesheet" href="../css/owl.theme.default.min.css" />
         <link rel="stylesheet" href="style.css" />
     
 
@@ -68,7 +68,14 @@ $result = $db_connect->Select($sql);
         <script src="../js/bootstrap.min.js"></script>
     </head>
     <body>
-        
+            <!-- LOADER -->
+            <div id="preloader">
+                <div id="main-ld">
+                    <div id="loader"></div>  
+                </div>
+            </div><!-- end loader -->
+            <!-- END LOADER -->
+
 
             <div class="wrapper">
                 <nav id="sidebar">
@@ -90,7 +97,7 @@ $result = $db_connect->Select($sql);
                 <div id="content" style="padding-left: 20px; width: 100vw">
                     <nav class="navbar navbar-expand-lg navbar-light bg-light">
                         <div class="container-fluid">
-                            <button class="btn btn-warning" type="button" id="sidebarCollapse" style="background: #7386D5;">&#9776;</button>
+                            <button class="btn" type="button" id="sidebarCollapse" style="background: #7386D5;">&#9776;</button>
                         </div>
                     </nav>
                     <div class="title">
@@ -152,6 +159,6 @@ $result = $db_connect->Select($sql);
 
             <a href="#" id="scroll-to-top" class="dmtop global-radius"><i class="fa fa-angle-up"></i></a>
 
-            <script src="js/custom.js"></script>
+            <script src="../js/custom.js"></script>
     </body>
 </html>
