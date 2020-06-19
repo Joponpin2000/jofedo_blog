@@ -2,11 +2,11 @@
 session_start();
 
 // include function file
-require_once('functions/DatabaseClass.php');
+require_once('../functions/DatabaseClass.php');
 
 $db_connect = new DatabaseClass("localhost", "blog", "root", "");
 
-if(!isset($_SESSION['admin']))
+if(!isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] !== true))
 {
 	header("location:adminlogin.php");
 }
@@ -61,7 +61,7 @@ if(isset($_POST['submit']))
             if ($_FILES['image']['name'] != '')
             {
                 $image = rand(111111111, 999999999) . '_' . $_FILES['image']['name'];
-                move_uploaded_file($_FILES['image']['tmp_name'], "images/" . $image);
+                move_uploaded_file($_FILES['image']['tmp_name'], "../images/" . $image);
 
                 // Execute an update statement
                 $sql = "UPDATE posts SET title = :title, body = :body, image = :image WHERE id = :id ";
@@ -83,7 +83,7 @@ if(isset($_POST['submit']))
         else
         {
             $image = rand(111111111, 999999999) . '_' . $_FILES['image']['name'];
-            move_uploaded_file($_FILES['image']['tmp_name'], "images/" . $image);
+            move_uploaded_file($_FILES['image']['tmp_name'], "../images/" . $image);
             
             // Execute an insert statement
             $sql = "INSERT INTO posts (title, body, image) VALUES (:title, :body, :image)";
@@ -104,35 +104,37 @@ unset($pdo);
 
 <!DOCTYPE html>
 <html>
-    <head>
-    <!-- Basic -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">   
-   
-    <!-- Mobile Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
-     <!-- Site Metas -->
-    <title>JOFEDO</title>  
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head>
+        <!-- Mobile Metas -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <!-- Site Metas -->
+        <title>Jofedo</title>  
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-    <!-- Site Icons -->
-    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
+        <!-- Site Icons -->
+        <link rel="shortcut icon" href="images/logo_3.png" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="images/logo_2.png">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/bootstrap-1.css">
+        <title>Jofedo.com</title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" rel="stylesheet">    
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        
+        <link href="../css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="../stylesheet" href="css/animate.css" />
+        <link href="../fonts/font-awesome.min.css" rel="stylesheet">
+        <link rel="../stylesheet" href="css/owl.carousel.min.css" />
+        <link rel="../stylesheet" href="css/owl.theme.default.min.css" />
+        <link rel="stylesheet" href="style.css" />
+    
 
-    <!-- Site CSS -->
-    <link rel="stylesheet" href="style.css">
-    <!-- ALL VERSION CSS -->
-    <link rel="stylesheet" href="../css/versions.css">
-    <!-- Responsive CSS -->
-    <link rel="stylesheet" href="../css/responsive.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/custom.css">
+        <script src="../js/jquery-1.8.3.min.js"></script>
+
+        <script src="../owl-carousel/owl-carousel.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
     </head>
     <body>
             <div class="wrapper">
@@ -142,10 +144,7 @@ unset($pdo);
                     </div>
                     <ul class="list-unstyled components">
                         <li>
-                            <a href="product.php" class="active">Posts</a>
-                        </li>
-                        <li>
-                            <a href="users.php">Users</a>
+                            <a href="posts.php" class="active">Posts</a>
                         </li>
                         <li>
                             <a href="contact_us.php">Contact Us</a>

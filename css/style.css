@@ -164,10 +164,10 @@ section {
     width: 100%;
     text-align: center;
     color: inherit;
+    height: 50px;
 }
 
 .single .side-posts .btn:hover {
     background-color: #40c4ff;
-    height: 50px;
 }
 

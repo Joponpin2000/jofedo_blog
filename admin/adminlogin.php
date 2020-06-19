@@ -1,6 +1,6 @@
 <?php
 // include function file
-require_once('functions/DatabaseClass.php');
+require_once('../functions/DatabaseClass.php');
 
 $db_connect = new DatabaseClass("localhost", "blog", "root", "");
 
@@ -35,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
     if(empty($username_err) && empty($password_err))
     {
         //prepare a select statement
-        $sql = "SELECT id, username, password FROM admin WHERE username = :username AND password = :password";
+        $sql = "SELECT id, username, password FROM users WHERE username = :username AND password = :password";
 
         $stmt = $db_connect->Select($sql, ['username' => $username, 'password' => $password]);
         if ($stmt)
@@ -60,34 +60,36 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 <!DOCTYPE html>
 <html>
     <head>
-    <!-- Basic -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">   
-   
-    <!-- Mobile Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
-     <!-- Site Metas -->
-    <title>Food Ordering System</title>  
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <meta name="author" content="">
+        <!-- Mobile Metas -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <!-- Site Metas -->
+        <title>Jofedo</title>  
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-    <!-- Site Icons -->
-    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
+        <!-- Site Icons -->
+        <link rel="shortcut icon" href="images/logo_3.png" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="images/logo_2.png">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/bootstrap-1.css">
-    <!-- Site CSS -->
-    <link rel="stylesheet" href="../style.css">
-    <!-- ALL VERSION CSS -->
-    <link rel="stylesheet" href="../css/versions.css">
-    <!-- Responsive CSS -->
-    <link rel="stylesheet" href="../css/responsive.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/custom.css">
+        <title>Jofedo.com</title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" rel="stylesheet">    
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        
+        <link href="../css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="../stylesheet" href="css/animate.css" />
+        <link href="../fonts/font-awesome.min.css" rel="stylesheet">
+        <link rel="../stylesheet" href="css/owl.carousel.min.css" />
+        <link rel="../stylesheet" href="css/owl.theme.default.min.css" />
+        <link rel="stylesheet" href="style.css" />
+    
 
+        <script src="../js/jquery-1.8.3.min.js"></script>
+
+        <script src="../owl-carousel/owl-carousel.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
     </head>
     <body>
             <div class="center-block" style="margin: 100px auto; width: 70%;">
