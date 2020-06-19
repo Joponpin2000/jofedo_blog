@@ -1,7 +1,8 @@
 <?php
-require_once("functions/PostsClass.php");
+// include function file
+require_once('functions/DatabaseClass.php');
 
-$db_connect = new Posts;
+$db_connect = new DatabaseClass("localhost", "blog", "root", "");
 
 ?>
 <!DOCTYPE html>
@@ -120,9 +121,9 @@ $db_connect = new Posts;
                                             <p><?php echo date("F j, Y ", strtotime($post['created_at'])); ?></p>
                                         </div>
                                     </div>
-                                    <h4><?php echo $post['title']; ?></h4>
+                                    <h4><a href="single_post.php?title=<?php echo $post['slug']?>" style="color: #40c4ff"><?php echo $post['title']; ?></a></h4>
                                     <p><?php echo $post['body']; ?></p>
-                                    <a href="single_post.php?post-slug=<?php echo $post['slug']?>" class="btn">Read more</a>
+                                    <a href="single_post.php?title=<?php echo $post['slug']?>" class="btn">Read more</a>
                                 </div>
                             </div>
                         </div>

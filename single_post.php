@@ -1,14 +1,17 @@
 <?php
-require_once("functions/PostsClass.php");
+// include function file
+require_once('functions/DatabaseClass.php');
 
-if(isset($_GET['post-slug']))
+if(isset($_GET['title']))
 {
-    $slug = trim($_GET['post-slug']);
-    $db_connect = new Posts;
+    $slug = trim($_GET['title']);
+    $db_connect = new DatabaseClass("localhost", "blog", "root", "");
 
     $sql = "SELECT * FROM posts WHERE slug = :slug";
     $post = $db_connect->Select($sql, ["slug" => $slug]);
 
+    $query = "SELECT * FROM posts";
+    $posts = $db_connect->Select($query);
 }
 
 ?>
@@ -64,24 +67,46 @@ if(isset($_GET['post-slug']))
             </div>
         </header>
         
-        <div class="container">
-            <div class="row">
+        <div class="container single">
+            <div class="row" style="width: 100%">
                 <div class="col-sm-8 col-md-8 col-lg-8">
-                    <h1><?php echo $post[0]['title']; ?></h1>
-                    <img src="<?php echo "images/" . $post[0]["image"]; ?>" />
-                    <p><?php echo $post[0]['body']; ?></p>
+                    <div class="main-posts">
+                        <h1 style="margin-bottom: 20px;"><?php echo $post[0]['title']; ?></h1>
+                        <img src="<?php echo "images/" . $post[0]["image"]; ?>" style="margin-bottom: 20px;"/>
+                        <p><?php echo $post[0]['body']; ?></p>
+                    </div>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">
-                    <h3>Hot Topics</h3>
-                    <div class="row">
-                        <div class="col-sm-4 col-md-4 col-lg-4">
-                            <a href="#">All</a>
+                    <div class="side-posts">
+                        <h3>Hot Topics</h3>
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <a href="#" class="btn">All</a>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <a href="#" class="btn">Recent</a>
+                            </div>
                         </div>
-                        <div class="col-sm-4 col-md-4 col-lg-4">
-                            <a href="#">Recent</a>
+                        <div>
+                            <?php
+                                foreach ($posts as $row)
+                                {
+                                    $id = $db_connect->Select("SELECT username FROM users WHERE id = :id", ['id' => $row['user_id']])
+                            ?>
+                                    <div class="row" style="margin-bottom: 20px;" >
+                                        <div class="col-sm-4 col-md-4 col-lg-4">
+                                            <img src="<?php echo "images/" . $row["image"]; ?>" />
+                                        </div>
+                                        <div class="col-sm-8 col-md-8 col-lg-8">
+                                            <h5><?php echo $row['title']; ?></h5>
+                                            <p style="color: rgba(0, 0, 0, 0.4);">By <?php echo $id[0]['username']; ?> | <?php echo date("j F Y ", strtotime($row['created_at'])); ?></p>
+                                        </div>
+                                    </div>
+                            <?php
+                                }
+                            ?>
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </div>
