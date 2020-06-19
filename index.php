@@ -129,8 +129,20 @@ $db_connect = new DatabaseClass("localhost", "blog", "root", "");
                                             <p><?php echo date("F j, Y ", strtotime($post['created_at'])); ?></p>
                                         </div>
                                     </div>
-                                    <h4><a href="single_post.php?title=<?php echo $post['slug']?>" style="color: #40c4ff"><?php echo $post['title']; ?></a></h4>
-                                    <p><?php echo $post['body']; ?></p>
+                                    <h4><a href="single_post.php?title=<?php echo $post['slug']?>" style="color: #40c4ff">
+                                    <?php
+                                    $limit = 23;
+                                    if (strlen($post['title']) <= $limit)
+                                    {
+                                        echo $post['title'];
+                                    }
+                                    else
+                                    {
+                                        echo substr_replace($post['title'], "..", $limit);
+                                    }
+                                    ?>
+                                </a></h4>
+                                    <p><?php echo substr_replace($post['body'], "...", 90); ?></p>
                                     <a href="single_post.php?title=<?php echo $post['slug']?>" class="btn">Read more</a>
                                 </div>
                             </div>

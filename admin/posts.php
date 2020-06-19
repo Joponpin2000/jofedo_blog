@@ -103,45 +103,58 @@ $result = $db_connect->Select($sql);
                         <h3>Products</h3>
                         <h5><a href="manage_posts.php" style="text-decoration: underline; color: #7386D5;">Add Post</a></h5>
                     </div>
-                    <div class="table" style="width: 100%;">
-                        <table style="width: 100%">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>ID</th>
-                                    <th>Post Title</th>
-                                    <th>Body</th>
-                                    <th>Image</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                    $i = 1;
-                                    foreach ($result as $row)
-                                    {
-                                ?>
+                    <?php
+                        if ($result)
+                        {
+                    ?>
+                            <div class="table" style="width: 100%;">
+                                <table style="width: 100%">
+                                    <thead>
                                         <tr>
-                                            <td><?php echo $i ?></td>
-                                            <td><?php echo $row['id'] ?></td>
-                                            <td><?php echo $row['title'] ?></td>
-                                            <td><?php echo $row['body'] ?></td>
-                                            <td><img src="<?php echo "../images/" . $row['image']?>" style="width: 40px; height: 30px"/></td>
-                                            <td style="text-align: right;">
-                                                <?php
-                                                echo "<span class='sett edit'><a href='manage_posts.php?id=" . $row['id'] .  "'>Edit</a></span>";
-
-                                                echo "&nbsp;<span class='sett delete'><a href='?type=delete&id=" . $row['id'] .  "'>Delete</a><span>";
-                                                ?>
-                                            </td>
+                                            <th>#</th>
+                                            <th>ID</th>
+                                            <th>Post Title</th>
+                                            <th>Body</th>
+                                            <th>Image</th>
+                                            <th></th>
                                         </tr>
-                                <?php
-                                    ++$i;
-                                    }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                            $i = 1;
+                                            foreach ($result as $row)
+                                            {
+                                        ?>
+                                                <tr>
+                                                    <td><?php echo $i ?></td>
+                                                    <td><?php echo $row['id'] ?></td>
+                                                    <td><?php echo $row['title'] ?></td>
+                                                    <td><?php echo $row['body'] ?></td>
+                                                    <td><img src="<?php echo "../images/" . $row['image']?>" style="width: 40px; height: 30px"/></td>
+                                                    <td style="text-align: right;">
+                                                        <?php
+                                                        echo "<span class='sett edit'><a href='manage_posts.php?id=" . $row['id'] .  "'>Edit</a></span>";
+
+                                                        echo "&nbsp;<span class='sett delete'><a href='?type=delete&id=" . $row['id'] .  "'>Delete</a><span>";
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                        <?php
+                                            ++$i;
+                                            }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                    <?php 
+                        }
+                        else
+                        {
+                    ?>
+                            <h5 style="color: red;">No posts yet!</h5>
+                    <?php
+                        }
+                    ?>
 
                     <div class="copyrights">
                         <div class="container">

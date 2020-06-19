@@ -126,8 +126,6 @@ unset($pdo);
         <link href="../css/bootstrap.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="../css/animate.css" />
         <link href="../fonts/font-awesome.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="../css/owl.carousel.min.css" />
-        <link rel="stylesheet" href="../css/owl.theme.default.min.css" />
         <link rel="stylesheet" href="style.css" />
     
 
@@ -135,6 +133,7 @@ unset($pdo);
 
         <script src="../owl-carousel/owl-carousel.js"></script>
         <script src="../js/bootstrap.min.js"></script>
+        <script src="../ckeditor/ckeditor.js"></script>
     </head>
     <body>
                 <!-- LOADER -->
@@ -163,7 +162,7 @@ unset($pdo);
                         </li>
                     </ul>
                 </nav>
-                <div id="content" style="padding-left: 20px; width: 100vw">
+                <div id="content" style="padding-left: 20px; width: 100%">
                     <nav class="navbar navbar-expand-lg navbar-light bg-light">
                         <div class="container-fluid">
                             <button class="btn" type="button" id="sidebarCollapse" style="background: #7386D5;">&#9776;</button>
@@ -187,7 +186,7 @@ unset($pdo);
                                 </div>
                                 <div class="form-group">
                                     <label for="body" class="form-control-label">Body</label>
-                                    <textarea name="body" class="form-control" placeholder="Enter post body" required><?php echo $body ?></textarea>
+                                    <textarea name="body" row="10" cols="80" class="form-control" placeholder="Enter post body" required><?php echo $body ?></textarea>
                                 </div>
                                 <button type="submit" name="submit" class="btn btn-warning btn-block">Submit</button>
                                 <span class="help-block" style="color:red;"><?php echo $msg; ?></span>
@@ -211,6 +210,9 @@ unset($pdo);
 
             <a href="#" id="scroll-to-top" class="dmtop global-radius"><i class="fa fa-angle-up"></i></a>
 
+            <script>
+                CKEDITOR.replace('body');
+            </script>
             <script src="../js/custom.js"></script>
     </body>
 </html>

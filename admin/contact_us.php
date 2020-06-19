@@ -103,45 +103,58 @@ $result = $db_connect->Select($sql);
                     <div class="title">
                         <h3>Contact Us</h3>
                     </div>
-                    <div class="table" style="width: 100%;">
-                        <table style="width: 100%">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>ID</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Comment</th>
-                            <th>Date</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                            $i = 1;
-                            foreach ($result as $row)
-                            {
-                        ?>
-                            <tr>
-                                <td><?php echo $i ?></td>
-                                <td><?php echo $row['id'] ?></td>
-                                <td><?php echo $row['usernname'] ?></td>
-                                <td><?php echo $row['email'] ?></td>
-                                <td><?php echo $row['comment'] ?></td>
-                                <td><?php echo $row['added_on'] ?></td>
-                                <td>
-                                    <?php
-                                    echo "&nbsp;<span class='sett delete'><a href='?type=delete&id=" . $row['id'] .  "'>Delete</a><span>";
-                                    ?>
-                                </td>
-                            </tr>
-                        <?php
-                        ++$i;
+                    <?php
+                        if ($result)
+                        {
+                    ?>
+                            <div class="table" style="width: 100%;">
+                                <table style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>ID</th>
+                                            <th>Username</th>
+                                            <th>Email</th>
+                                            <th>Comment</th>
+                                            <th>Date</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                            $i = 1;
+                                            foreach ($result as $row)
+                                            {
+                                        ?>
+                                            <tr>
+                                                <td><?php echo $i ?></td>
+                                                <td><?php echo $row['id'] ?></td>
+                                                <td><?php echo $row['usernname'] ?></td>
+                                                <td><?php echo $row['email'] ?></td>
+                                                <td><?php echo $row['comment'] ?></td>
+                                                <td><?php echo $row['added_on'] ?></td>
+                                                <td>
+                                                    <?php
+                                                    echo "&nbsp;<span class='sett delete'><a href='?type=delete&id=" . $row['id'] .  "'>Delete</a><span>";
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                        ++$i;
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                    <?php 
                         }
-                        ?>
-                    </tbody>
-                        </table>
-                    </div>
+                        else
+                        {
+                    ?>
+                            <h5 style="color: red;">No posts yet!</h5>
+                    <?php
+                        }
+                    ?>
 
                     <div class="copyrights">
                         <div class="container">

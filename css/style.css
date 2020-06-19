@@ -129,6 +129,7 @@ section {
 
 .news img {
     width: 100%;
+    height: 250px;
 }
 
 .news .btn {
