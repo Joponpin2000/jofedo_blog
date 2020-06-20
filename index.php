@@ -11,49 +11,55 @@ $name_err = $email_err = $phone_err = $message_err = "";
 
 if ($_SERVER["REQUEST_METHOD"] =="POST")
 {
-    if (empty(trim($_POST["name"])))
+    if (isset($_POST['submit']))
     {
-        $name_err = "Please enter your name.";
-    }
-    else {
-        $name = trim($_POST["name"]);
-    }
-
-    if (empty(trim($_POST["phone"])))
-    {
-        $phone_err = "Please enter your phone.";
-    }
-    else {
-        $phone = trim($_POST["phone"]);
-    }
-
-    //validate email
-    if (empty(trim($_POST["email"])))
-    {
-        $email_err = "Please enter your email.";
-    }
-    else {
-        //SANITIZE EMAIL
-        $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
-    }
-
-    //validate password
-    if(empty(trim($_POST["message"])))
-    {
-        $message_err = "Please enter your message.";
-    }
-    else {
-        $message = trim($_POST["message"]);
-    }
-
-    //Check input errors before inserting in databse
-    if((empty($name_err) && empty($phone_err)) && (empty($message_err) && empty($email_err)))
-    {
-        $sql = "INSERT INTO contact_us (name, email, phone, comment) VALUES (:name, :email, :phone, :message)";
-        $stmt = $db_connect->Insert($sql, ['name' => $name, 'email' => $email, 'phone' => $phone, 'message' => $message]);
-
-        // Close statement
-        unset($stmt);
+        if (empty(trim($_POST["name"])))
+        {
+            $name_err = "Please enter your name.";
+        }
+        else {
+            $name = trim($_POST["name"]);
+        }
+    
+        if (empty(trim($_POST["phone"])))
+        {
+            $phone_err = "Please enter your phone.";
+        }
+        else {
+            $phone = trim($_POST["phone"]);
+        }
+    
+        //validate email
+        if (empty(trim($_POST["email"])))
+        {
+            $email_err = "Please enter your email.";
+        }
+        else {
+            //SANITIZE EMAIL
+            $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
+        }
+    
+        //validate password
+        if(empty(trim($_POST["message"])))
+        {
+            $message_err = "Please enter your message.";
+        }
+        else {
+            $message = trim($_POST["message"]);
+        }
+    
+        //Check input errors before inserting in databse
+        if((empty($name_err) && empty($phone_err)) && (empty($message_err) && empty($email_err)))
+        {
+            $sql = "INSERT INTO contact_us (name, email, phone, comment) VALUES (:name, :email, :phone, :message)";
+            $stmt = $db_connect->Insert($sql, ['name' => $name, 'email' => $email, 'phone' => $phone, 'message' => $message]);
+    
+            if ($stmt)
+            {
+                echo "<script>alert('Thanks for contacting us! \n Your comment has been sent.')</script>";
+            }
+            unset($stmt);
+        }    
     }
 }
 
@@ -211,27 +217,31 @@ if ($_SERVER["REQUEST_METHOD"] =="POST")
 
         <section class="contact" id="contact">
             <div class="container">
-                <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" role="form" onsubmit="return(validate(this))">
                     <div class="row">
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group">
-                                <input class="form-control" name="name" type="text" placeholder="Your Name" required="required">
+                                <input class="form-control" name="name" value="<?php echo $name; ?>" type="text" placeholder="Your Name">
+                                <span class="help-block"><?php echo $name_err; ?></span>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" name="email" type="text" placeholder="Your Email" required="required">
+                                <input class="form-control" name="email" type="text" value="<?php echo $email; ?>" placeholder="Your Email">
+                                <span class="help-block"><?php echo $email_err; ?></span>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" name="phone" type="text" placeholder="Your Phone" required="required">
+                                <input class="form-control" name="phone" type="text" value="<?php echo $phone; ?>" placeholder="Your Phone">
+                                <span class="help-block"><?php echo $phone_err; ?></span>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="form-group">
-                                <textarea class="form-control" name="message" placeholder="Your Message" required="required" data-validation-required-message="Please enter a message."></textarea>
+                                <textarea class="form-control" name="message" value="<?php echo $message; ?>" placeholder="Your Message" data-validation-required-message="Please enter a message."></textarea>
+                                <span class="help-block"><?php echo $message_err; ?></span>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-12 col-lg-12 text-center">
-                            <button class="btn btn-primary" type="submit">Send Message</button>
-                        </div>
+                            <div class="form-group col-sm-12 col-md-12 col-lg-12 text-center">
+                                <input name="submit" class="btn" type="submit" value="Send Message" />
+                            </div>
                     </div>
                 </form>
             </div>
@@ -265,7 +275,7 @@ if ($_SERVER["REQUEST_METHOD"] =="POST")
             <div class="container">
                 <div class="row">
                     <div style="text-align: center; width: 100%;">
-                        <p>All Rights Reserved. &copy; 2020 <b><a href="#">JOFEDO   </a></b> Developed by : <a href=""><b>Idowu Joseph</b></a></p>
+                        <p>All Rights Reserved. &copy; 2020 <b><a href="admin/adminlogin.php">JOFEDO   </a></b> Developed by : <a href=""><b>Idowu Joseph</b></a></p>
                     </div>
                 </div>
             </div><!-- end container -->

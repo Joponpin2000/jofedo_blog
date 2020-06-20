@@ -83,33 +83,6 @@ section {
 .onboard span {
     color: #40c4ff;
 }
-
-.onboard button, .onboard input.btn {
-    padding: 10px 30px;
-    margin-top: 10px;
-}
-
-.onboard .modalbtn {
-    margin-right: 10px;
-}
-
-.onboard .modalbtn:hover {
-    background: transparent;
-
-}
-
-.onboard .form-group {
-    margin: 20px;
-}
-
-.onboard .modal{
-    color: rgba(0, 0, 0, 0.7);
-}
-
-.onboard .help-block {
-    color: red;
-}
-
 /*================================================================
 ============== posts ===========================================*/
 
@@ -188,6 +161,11 @@ section {
     background-color: #40c4ff;
     color: #fff;
     border-color: #40c4ff;
+}
+
+
+.help-block {
+    color: red;
 }
 
 /* =============================================================

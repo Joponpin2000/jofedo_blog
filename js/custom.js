@@ -36,3 +36,48 @@
 			$('a[aria-expanded=true]').attr('aria-expanded', 'false');
 		});
 	});
+
+/******************************************
+    FORM VALIDATION
+/****************************************** */
+function validate(form) {
+    if (form.name.value == "") {
+        alert("Please provide your name!");
+        form.name.focus();
+        return false;
+    }
+
+    if (form.email.value == "") {
+        alert("Please provide your email!");
+        form.email.focus();
+        return false;
+    }
+
+    validateEmail(form);
+
+    if (form.phone.value == "") {
+        alert("Please provide your phone number!");
+        form.phone.focus();
+        return false;
+    }
+
+
+    if (form.message.value == "") {
+        alert("Please enter your comment!");
+        form.message.focus();
+        return false;
+    }
+}
+
+function validateEmail(form) {
+    var emailID = form.email.value;
+    atpos = emailID.indexOf("@");
+    dotpos = emailID.lastIndexOf(".");
+
+    if (atpos < 1 || (dotpos - atpos < 2)) {
+        alert("Please enter correct email ID!");
+        form.email.focus();
+        return false;
+    }
+    return (true);
+}

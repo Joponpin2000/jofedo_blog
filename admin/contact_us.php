@@ -153,7 +153,7 @@ $result = $db_connect->Select($sql);
                         else
                         {
                     ?>
-                            <h5 style="color: red;">No posts yet!</h5>
+                            <h5 style="color: red;">No comments yet!</h5>
                     <?php
                         }
                     ?>

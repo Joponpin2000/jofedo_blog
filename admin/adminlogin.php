@@ -111,14 +111,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                                 <form role="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="username" value="<?php echo $username; ?>" required/>
-                                        <span class="help-block" style="color:red;"><?php echo $username_err; ?></span>
+                                        <span class="help-block"><?php echo $username_err; ?></span>
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control" name="password" value="<?php echo $password; ?>" required/>
-                                        <span class="help-block" style="color:red;"><?php echo $password_err; ?></span>
+                                        <span class="help-block"><?php echo $password_err; ?></span>
                                     </div>
                                     <button type="submit" style="background-color: #7386D5; border-color: #7386D5" class="btn btn-warning btn-block">Submit</button>
-                                    <a href="" class="pull-left" style="color: red;">Forgot Password?</a>
+                                    <a href="" class="pull-left help-block">Forgot Password?</a>
                                 </form>
                             </div>
                     </div>
