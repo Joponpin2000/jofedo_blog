@@ -120,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] =="POST")
                             <li><a class="active" href="index.php">Home</a></li>
                             <li><a href="">News</a></li>
                             <li><a href="">About</a></li>
-                            <li><a href="">Contact</a></li>
+                            <li><a href="#contact">Contact</a></li>
                         </ul>
                     </nav>    
                 </div>
@@ -258,7 +258,7 @@ if ($_SERVER["REQUEST_METHOD"] =="POST")
                         <h4>Links</h4>
                         <p><a href="#donation">blog</a></p>
                         <p><a href="#causes">news</a></p>
-                        <p><a href="contact">Contact Us</a></p>
+                        <p><a href="#contact">Contact Us</a></p>
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-4">
                         <h4>Contact Us</h4>

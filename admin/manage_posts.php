@@ -82,12 +82,13 @@ if(isset($_POST['submit']))
         }
         else
         {
+            $user_id = $_SESSION['id'];
             $image = rand(111111111, 999999999) . '_' . $_FILES['image']['name'];
             move_uploaded_file($_FILES['image']['tmp_name'], "../images/" . $image);
             
             // Execute an insert statement
-            $sql = "INSERT INTO posts (title, body, image) VALUES (:title, :body, :image)";
-            $stmt = $db_connect->Insert($sql, ['title' => $title, 'body' => $body, 'image' => $image]);
+            $sql = "INSERT INTO posts (title, user_id, body, image) VALUES (:title, :user_id, :body, :image)";
+            $stmt = $db_connect->Insert($sql, ['title' => $title, 'user_id' => $user_id, 'body' => $body, 'image' => $image]);
 
             // Close statement
             unset($stmt);

@@ -40,6 +40,23 @@
 /******************************************
     FORM VALIDATION
 /****************************************** */
+
+
+function validateEmail(form) {
+    var emailID = form.email.value;
+    atpos = emailID.indexOf("@");
+    dotpos = emailID.lastIndexOf(".");
+
+    if (atpos < 1 || (dotpos - atpos < 2)) {
+        alert("Please enter correct email ID!");
+        form.email.focus();
+        return false;
+    }
+    return (true);
+}
+
+
+
 function validate(form) {
     if (form.name.value == "") {
         alert("Please provide your name!");
@@ -67,17 +84,4 @@ function validate(form) {
         form.message.focus();
         return false;
     }
-}
-
-function validateEmail(form) {
-    var emailID = form.email.value;
-    atpos = emailID.indexOf("@");
-    dotpos = emailID.lastIndexOf(".");
-
-    if (atpos < 1 || (dotpos - atpos < 2)) {
-        alert("Please enter correct email ID!");
-        form.email.focus();
-        return false;
-    }
-    return (true);
 }

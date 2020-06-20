@@ -10,8 +10,66 @@ if(isset($_GET['title']))
     $sql = "SELECT * FROM posts WHERE slug = :slug";
     $post = $db_connect->Select($sql, ["slug" => $slug]);
 
-    $query = "SELECT * FROM posts";
-    $posts = $db_connect->Select($query);
+    if ($post)
+    {
+        $query = "SELECT * FROM posts";
+        $posts = $db_connect->Select($query);
+
+        $msg = "";
+        $name = $email = $website = $message = "";
+        $name_err = $email_err = $message_err = "";
+
+        if ($_SERVER["REQUEST_METHOD"] =="POST")
+        {
+            if (isset($_POST['submit']))
+            {
+                if (empty(trim($_POST["name"])))
+                {
+                    $name_err = "Please enter your name.";
+                }
+                else {
+                    $name = trim($_POST["name"]);
+                }
+
+                $website = trim($_POST['website']);
+                
+                //validate email
+                if (empty(trim($_POST["email"])))
+                {
+                    $email_err = "Please enter your email.";
+                }
+                else
+                {
+                    //SANITIZE EMAIL
+                    $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
+                }
+
+            
+                //validate message
+                if(empty(trim($_POST["message"])))
+                {
+                    $message_err = "Please enter your message.";
+                }
+                else {
+                    $message = trim($_POST["message"]);
+                }
+            
+                //Check input errors before inserting in databse
+                if(empty($name_err) && (empty($message_err) && empty($email_err)))
+                {
+                    $sql = "INSERT INTO reply (name, email, website, comment) VALUES (:name, :email, :website, :comment)";
+                    $stmt = $db_connect->Insert($sql, ['name' => $name, 'email' => $email, 'website' => $website, 'comment' => $message]);
+                    unset($stmt);
+                }    
+            }
+        }
+    }
+    else
+    {
+        header("location: index.php");
+        exit;
+    }
+
 }
 
 ?>
@@ -61,7 +119,7 @@ if(isset($_GET['title']))
                         <li><a class="active" href="index.php">Home</a></li>
                         <li><a href="">News</a></li>
                         <li><a href="">About</a></li>
-                        <li><a href="">Contact</a></li>
+                        <li><a href="index.php#contact">Contact</a></li>
                     </ul>
                 </nav>    
             </div>
@@ -75,6 +133,45 @@ if(isset($_GET['title']))
                         <img src="<?php echo "images/" . $post[0]["image"]; ?>" style="margin-bottom: 20px;"/>
                         <p><?php echo $post[0]['body']; ?></p>
                     </div>
+                    <div class="reply">
+                        <h5>LEAVE A REPLY </h5>
+                        <small>Your email address will not be published. Required fields are marked *</small>
+                        <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" role="form">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="name">Name *</label>
+                                        <input class="form-control" name="name" value="<?php echo $name; ?>" type="text" required>
+                                        <span class="help-block"><?php echo $name_err; ?></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="email">Email *</label>
+                                        <input class="form-control" name="email" type="text" value="<?php echo $email; ?>" required>
+                                        <span class="help-block"><?php echo $email_err; ?></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="website">Website</label>
+                                        <input class="form-control" name="website" type="text" value="<?php echo $website; ?>">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="message">Reply *</label>
+                                        <textarea class="form-control" name="message" value="<?php echo $message; ?>" required></textarea>
+                                        <span class="help-block"><?php echo $message_err; ?></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                <input name="submit" class="btn" type="submit" value="Post Coment" />
+                            </div>
+                            </div>
+                        </form>
+                    </div>
+
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <div class="side-posts">
@@ -91,15 +188,14 @@ if(isset($_GET['title']))
                             <?php
                                 foreach ($posts as $row)
                                 {
-                                    $id = $db_connect->Select("SELECT username FROM users WHERE id = :id", ['id' => $row['user_id']])
                             ?>
                                     <div class="row" style="margin-bottom: 20px;" >
                                         <div class="col-sm-4 col-md-4 col-lg-4">
-                                            <img src="<?php echo "images/" . $row["image"]; ?>" />
+                                            <img src="<?php echo "images/" . $row["image"]; ?>"/>
                                         </div>
                                         <div class="col-sm-8 col-md-8 col-lg-8">
-                                            <h5><?php echo $row['title']; ?></h5>
-                                            <p style="color: rgba(0, 0, 0, 0.4);">By <?php echo $id[0]['username']; ?> | <?php echo date("j F Y ", strtotime($row['created_at'])); ?></p>
+                                            <h5><a href="single_post.php?title=<?php echo $row['slug']?>" style="color: #40c4ff"><?php echo $row['title']; ?></a></h5>
+                                            <p style="color: rgba(0, 0, 0, 0.4);"><?php echo date("j F Y ", strtotime($row['created_at'])); ?></p>
                                         </div>
                                     </div>
                             <?php
