@@ -87,7 +87,7 @@ if(isset($_POST['submit']))
             
             // Execute an insert statement
             $sql = "INSERT INTO posts (title, body, image) VALUES (:title, :body, :image)";
-            $stmt = $db_connect->Update($sql, ['title' => $title, 'body' => $body, 'image' => $image]);
+            $stmt = $db_connect->Insert($sql, ['title' => $title, 'body' => $body, 'image' => $image]);
 
             // Close statement
             unset($stmt);

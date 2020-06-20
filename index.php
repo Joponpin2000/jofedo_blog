@@ -4,6 +4,61 @@ require_once('functions/DatabaseClass.php');
 
 $db_connect = new DatabaseClass("localhost", "blog", "root", "");
 
+
+$msg = "";
+$name = $email = $phone = $message = "";
+$name_err = $email_err = $phone_err = $message_err = "";
+
+if ($_SERVER["REQUEST_METHOD"] =="POST")
+{
+    if (empty(trim($_POST["name"])))
+    {
+        $name_err = "Please enter your name.";
+    }
+    else {
+        $name = trim($_POST["name"]);
+    }
+
+    if (empty(trim($_POST["phone"])))
+    {
+        $phone_err = "Please enter your phone.";
+    }
+    else {
+        $phone = trim($_POST["phone"]);
+    }
+
+    //validate email
+    if (empty(trim($_POST["email"])))
+    {
+        $email_err = "Please enter your email.";
+    }
+    else {
+        //SANITIZE EMAIL
+        $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
+    }
+
+    //validate password
+    if(empty(trim($_POST["message"])))
+    {
+        $message_err = "Please enter your message.";
+    }
+    else {
+        $message = trim($_POST["message"]);
+    }
+
+    //Check input errors before inserting in databse
+    if((empty($name_err) && empty($phone_err)) && (empty($message_err) && empty($email_err)))
+    {
+        $sql = "INSERT INTO contact_us (name, email, phone, comment) VALUES (:name, :email, :phone, :message)";
+        $stmt = $db_connect->Insert($sql, ['name' => $name, 'email' => $email, 'phone' => $phone, 'message' => $message]);
+
+        // Close statement
+        unset($stmt);
+    }
+}
+
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -151,6 +206,34 @@ $db_connect = new DatabaseClass("localhost", "blog", "root", "");
                         }
                     ?>
                 </div>
+            </div>
+        </section>
+
+        <section class="contact" id="contact">
+            <div class="container">
+                <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <input class="form-control" name="name" type="text" placeholder="Your Name" required="required">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" name="email" type="text" placeholder="Your Email" required="required">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" name="phone" type="text" placeholder="Your Phone" required="required">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <textarea class="form-control" name="message" placeholder="Your Message" required="required" data-validation-required-message="Please enter a message."></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+                            <button class="btn btn-primary" type="submit">Send Message</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </section>
 

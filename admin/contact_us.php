@@ -113,7 +113,8 @@ $result = $db_connect->Select($sql);
                                         <tr>
                                             <th>#</th>
                                             <th>ID</th>
-                                            <th>Username</th>
+                                            <th>Name</th>
+                                            <th>Phone</th>
                                             <th>Email</th>
                                             <th>Comment</th>
                                             <th>Date</th>
@@ -129,7 +130,8 @@ $result = $db_connect->Select($sql);
                                             <tr>
                                                 <td><?php echo $i ?></td>
                                                 <td><?php echo $row['id'] ?></td>
-                                                <td><?php echo $row['usernname'] ?></td>
+                                                <td><?php echo $row['name'] ?></td>
+                                                <td><?php echo $row['phone'] ?></td>
                                                 <td><?php echo $row['email'] ?></td>
                                                 <td><?php echo $row['comment'] ?></td>
                                                 <td><?php echo $row['added_on'] ?></td>
