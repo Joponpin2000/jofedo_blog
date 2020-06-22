@@ -143,7 +143,7 @@ ul ul a {
     right: 0;
     bottom: 0;
     left: 0;
-    background: #333333;
+    background: #ffffff;
     z-index: 11000;
     position: fixed;
     display: block
@@ -162,8 +162,8 @@ ul ul a {
   width: 70px;
   height: 70px;
   border-style: solid;
-  border-top-color: #FFF;
-  border-right-color: #FFF;
+  border-top-color: #40c4ff;
+  border-right-color: #40c4ff;
   border-left-color: transparent;
   border-bottom-color: transparent;
   border-radius: 50%;
@@ -191,7 +191,7 @@ ul ul a {
 }
 
 .dmtop {
-    background-color: #3C3D41;
+    background-color: #40c4ff;
     z-index: 100;
     width: 50px;
     height: 50px;

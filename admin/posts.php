@@ -129,7 +129,7 @@ $result = $db_connect->Select($sql);
                                                     <td><?php echo $i ?></td>
                                                     <td><?php echo $row['id'] ?></td>
                                                     <td><?php echo $row['title'] ?></td>
-                                                    <td><?php echo $row['body'] ?></td>
+                                                    <td><?php echo substr_replace($row['body'], "...", 100); ?></td>
                                                     <td><img src="<?php echo "../images/" . $row['image']?>" style="width: 40px; height: 30px"/></td>
                                                     <td style="text-align: right;">
                                                         <?php

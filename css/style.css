@@ -110,7 +110,7 @@ section {
 }
 
 .news .btn {
-    border: 1px solid #444;
+    border: 1px solid #40c4ff;
     border-radius: 30px;
     color: #444;
     background-color: transparent;
@@ -148,7 +148,7 @@ section {
 }
 
 .contact .btn {
-    border: 1px solid #444;
+    border: 1px solid #40c4ff;
     border-radius: 30px;
     color: #444;
     background-color: transparent;
@@ -175,6 +175,10 @@ section {
 /* =============================================================
 ====================  SINGLE POST  ==============================*/
 
+.single .main-posts {
+    margin-bottom: 40px;
+}
+
 .single img {
     max-width: 100%;
     height: 500px;
@@ -196,12 +200,44 @@ section {
     background-color: #40c4ff;
 }
 
+/*==================================================================
+============== reply ========================================*/
+
+.reply .btn {
+    border: 1px solid #40c4ff;
+    border-radius: 30px;
+    color: #444;
+    background-color: transparent;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 20px;
+    padding: 10px 15px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 0.4s ease 0s;
+    font-size: small;
+}
+  
+.reply .btn:hover {
+    background-color: #40c4ff;
+    color: #fff;
+    border-color: #40c4ff;
+}
+
+
 
 /*==================================================================
 ============== FOOTER / COPYRIGHTS ========================================*/
 
 .footer a, .copyrights p a {
     color: inherit;
+}
+
+.footer {
+    padding-top: 20px;
+    background-color: #40c4ff;
+    color: #ffffff;
 }
 
 
@@ -215,7 +251,7 @@ section {
     right: 0;
     bottom: 0;
     left: 0;
-    background: #333333;
+    background: #FFF;
     z-index: 11000;
     position: fixed;
     display: block
@@ -234,8 +270,8 @@ section {
   width: 70px;
   height: 70px;
   border-style: solid;
-  border-top-color: #FFF;
-  border-right-color: #FFF;
+  border-top-color: #40c4ff;
+  border-right-color: #40c4ff;
   border-left-color: transparent;
   border-bottom-color: transparent;
   border-radius: 50%;
@@ -264,7 +300,7 @@ section {
 }
 
 .dmtop {
-    background-color: #3C3D41;
+    background-color: #40c4ff;
     z-index: 100;
     width: 50px;
     height: 50px;

@@ -8,10 +8,11 @@ if(isset($_GET['title']))
     $db_connect = new DatabaseClass("localhost", "blog", "root", "");
 
     $sql = "SELECT * FROM posts WHERE slug = :slug";
-    $post = $db_connect->Select($sql, ["slug" => $slug]);
+    $blog = $db_connect->Select($sql, ["slug" => $slug]);
 
-    if ($post)
+    if ($blog)
     {
+        // Populate data from the database
         $query = "SELECT * FROM posts";
         $posts = $db_connect->Select($query);
 
@@ -19,58 +20,60 @@ if(isset($_GET['title']))
         $name = $email = $website = $message = "";
         $name_err = $email_err = $message_err = "";
 
-        if ($_SERVER["REQUEST_METHOD"] =="POST")
-        {
-            if (isset($_POST['submit']))
-            {
-                if (empty(trim($_POST["name"])))
-                {
-                    $name_err = "Please enter your name.";
-                }
-                else {
-                    $name = trim($_POST["name"]);
-                }
-
-                $website = trim($_POST['website']);
-                
-                //validate email
-                if (empty(trim($_POST["email"])))
-                {
-                    $email_err = "Please enter your email.";
-                }
-                else
-                {
-                    //SANITIZE EMAIL
-                    $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
-                }
-
-            
-                //validate message
-                if(empty(trim($_POST["message"])))
-                {
-                    $message_err = "Please enter your message.";
-                }
-                else {
-                    $message = trim($_POST["message"]);
-                }
-            
-                //Check input errors before inserting in databse
-                if(empty($name_err) && (empty($message_err) && empty($email_err)))
-                {
-                    $sql = "INSERT INTO reply (name, email, website, comment) VALUES (:name, :email, :website, :comment)";
-                    $stmt = $db_connect->Insert($sql, ['name' => $name, 'email' => $email, 'website' => $website, 'comment' => $message]);
-                    unset($stmt);
-                }    
-            }
-        }
     }
     else
     {
         header("location: index.php");
         exit;
     }
-
 }
+
+if ($_SERVER["REQUEST_METHOD"] =="POST")
+{
+    if (isset($_POST['submit']))
+    {
+        if (empty(trim($_POST["name"])))
+        {
+            $name_err = "Please enter your name.";
+        }
+        else {
+            $name = trim($_POST["name"]);
+        }
+
+        $website = trim($_POST['website']);
+        
+        //validate email
+        if (empty(trim($_POST["email"])))
+        {
+            $email_err = "Please enter your email.";
+        }
+        else
+        {
+            //SANITIZE EMAIL
+            $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
+        }
+
+        $post_id = trim($_POST['post_id']);
+    
+        //validate message
+        if(empty(trim($_POST["message"])))
+        {
+            $message_err = "Please enter your message.";
+        }
+        else {
+            $message = trim($_POST["message"]);
+        }
+    
+        //Check input errors before inserting in databse
+        if(empty($name_err) && (empty($message_err) && empty($email_err)))
+        {
+            $sql = "INSERT INTO reply (post_id, name, email, website, comment) VALUES (:post_id,:name, :email, :website, :comment)";
+            $stmt = $db_connect->Insert($sql, ['post_id' => $post_id,'name' => $name, 'email' => $email, 'website' => $website, 'comment' => $message]);
+            unset($stmt);
+        }    
+    }
+}
+
 
 ?>
 
@@ -129,12 +132,13 @@ if(isset($_GET['title']))
             <div class="row" style="width: 100%">
                 <div class="col-sm-8 col-md-8 col-lg-8">
                     <div class="main-posts">
-                        <h1 style="margin-bottom: 20px;"><?php echo $post[0]['title']; ?></h1>
-                        <img src="<?php echo "images/" . $post[0]["image"]; ?>" style="margin-bottom: 20px;"/>
-                        <p><?php echo $post[0]['body']; ?></p>
+                        <h1 style="margin-bottom: 20px;"><?php echo $blog[0]['title']; ?></h1>
+                        <img src="<?php echo "images/" . $blog[0]["image"]; ?>" style="margin-bottom: 20px;"/>
+                        <p><?php echo $blog[0]['body']; ?></p>
                     </div>
                     <div class="reply">
                         <h5>LEAVE A REPLY </h5>
+                        <hr />
                         <small>Your email address will not be published. Required fields are marked *</small>
                         <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" role="form">
                             <div class="row">
@@ -166,8 +170,9 @@ if(isset($_GET['title']))
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                <input name="submit" class="btn" type="submit" value="Post Coment" />
-                            </div>
+                                    <input type="hidden" name="post_id" value="<?php echo $blog[0]['id']; ?>">
+                                    <input name="submit" class="btn" type="submit" value="Post Comment" />
+                                </div>
                             </div>
                         </form>
                     </div>

@@ -239,9 +239,9 @@ if ($_SERVER["REQUEST_METHOD"] =="POST")
                                 <span class="help-block"><?php echo $message_err; ?></span>
                             </div>
                         </div>
-                            <div class="form-group col-sm-12 col-md-12 col-lg-12 text-center">
-                                <input name="submit" class="btn" type="submit" value="Send Message" />
-                            </div>
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 text-center">
+                            <input name="submit" class="btn" type="submit" value="Send Message" />
+                        </div>
                     </div>
                 </form>
             </div>
