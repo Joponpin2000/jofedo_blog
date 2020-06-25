@@ -84,10 +84,16 @@ $result = $db_connect->Select($sql);
                     </div>
                     <ul class="list-unstyled components">
                         <li>
+                            <a href="categories.php">Categories</a>
+                        </li>
+                        <li>
                             <a href="posts.php">Posts</a>
                         </li>
                         <li>
                             <a class="active" href="contact_us.php">Contact Us</a>
+                        </li>
+                        <li>
+                            <a href="about.php" class="active">About Us</a>
                         </li>
                         <li>
                             <a href="logout.php">Logout</a>

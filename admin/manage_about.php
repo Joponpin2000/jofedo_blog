@@ -13,7 +13,7 @@ if(!isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] !== true))
 	header("location:adminlogin.php");
 }
 
-$title = "";
+$heading = "";
 $image = "";
 $body = "";
 
@@ -26,18 +26,18 @@ if (isset($_GET['id']) && (trim($_GET['id']) != ''))
     $id = trim($_GET['id']);
 
     // Populate data from database
-    $sql = "SELECT * FROM posts WHERE id = :id ";
+    $sql = "SELECT * FROM about_us WHERE id = :id ";
     $stmt = $db_connect->Select($sql, ["id" => $id]);
 
     if ($stmt)
     {
-        $title = $stmt[0]['title'];    
+        $heading = $stmt[0]['heading'];    
         $image = $stmt[0]['image'];    
         $body = $stmt[0]['body'];    
     }
     else
     {
-        header("location: posts.php");
+        header("location: about.php");
         die();            
     }
 
@@ -48,17 +48,12 @@ if (isset($_GET['id']) && (trim($_GET['id']) != ''))
 
 if(isset($_POST['submit']))
 {
-    $title = trim($_POST['title']);
-    $slug = slug($title);
+    $heading = trim($_POST['heading']);
     $body = trim($_POST['body']);
 
     if ($_FILES['image']['type'] != '' && $_FILES['image']['type'] != 'image/png' && $_FILES['image']['type'] != 'image/jpg' && $_FILES['image']['type'] != 'image/jpeg')
     {
         $msg = "Please select only png, jpg and jpeg formats.";
-    }
-    if (empty($slug))
-    {
-        $msg = "Please provide a better post title";
     }
 
     if ($msg == "")
@@ -73,8 +68,8 @@ if(isset($_POST['submit']))
                 move_uploaded_file($_FILES['image']['tmp_name'], "../images/" . $image);
 
                 // Execute an update statement
-                $sql = "UPDATE posts SET title = :title, body = :body, slug = :slug, image = :image WHERE id = :id ";
-                $stmt = $db_connect->Update($sql, ['title' => $title, 'body' => $body, 'slug' => $slug, 'image' => $image, 'id' => $id]);
+                $sql = "UPDATE about_us SET heading = :heading, body = :body, image = :image WHERE id = :id ";
+                $stmt = $db_connect->Update($sql, ['heading' => $heading, 'body' => $body, 'image' => $image, 'id' => $id]);
 
                 // Close statement
                 unset($stmt);
@@ -82,8 +77,8 @@ if(isset($_POST['submit']))
             else
             {
                 // Execute an update statement
-                $sql = "UPDATE posts SET title = :title, body = :body, slug = :slug WHERE id = :id ";
-                $stmt = $db_connect->Update($sql, ['title' => $title, 'body' => $body, 'slug' => $slug, 'id' => $id]);
+                $sql = "UPDATE about_us SET heading = :heading, body = :body WHERE id = :id ";
+                $stmt = $db_connect->Update($sql, ['heading' => $heading, 'body' => $body, 'id' => $id]);
 
                 // Close statement
                 unset($stmt);
@@ -96,13 +91,13 @@ if(isset($_POST['submit']))
             move_uploaded_file($_FILES['image']['tmp_name'], "../images/" . $image);
             
             // Execute an insert statement
-            $sql = "INSERT INTO posts (title, body, slug, image) VALUES (:title, :body, :slug, :image)";
-            $stmt = $db_connect->Insert($sql, ['title' => $title, 'body' => $body, 'slug' => $slug, 'image' => $image]);
+            $sql = "INSERT INTO about_us (heading, body, image) VALUES (:heading, :body, :image)";
+            $stmt = $db_connect->Insert($sql, ['heading' => $heading, 'body' => $body, 'image' => $image]);
 
             // Close statement
             unset($stmt);
         }
-        header("location: posts.php");
+        header("location: about.php");
         die();        
     }
 }
@@ -186,7 +181,7 @@ unset($pdo);
                     </nav>
                     <div class="container">
                     <div class="title">
-                        <h5>Add Post</h5>
+                        <h5>Add About</h5>
                     </div>
 
                         <div class="col-sm-12 col-md-12 col-lg-12 cat-block">
@@ -194,8 +189,8 @@ unset($pdo);
                             <form method="post" enctype="multipart/form-data">
                                 <span class="help-block" style="color:red;"><?php echo $msg; ?></span>
                                 <div class="form-group">
-                                    <label for="title" class="form-control-label">Post Title</label>
-                                    <input type="text" name="title" class="form-control" value="<?php echo $title ?>" placeholder="Enter post title" required/>
+                                    <label for="heading" class="form-control-label">Heading</label>
+                                    <input type="text" name="heading" class="form-control" value="<?php echo $heading ?>" placeholder="Enter heading" required/>
                                 </div>
                                 <div class="form-group">
                                     <label for="image" class="form-control-label">Image</label>

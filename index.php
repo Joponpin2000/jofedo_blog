@@ -118,8 +118,8 @@ if ($_SERVER["REQUEST_METHOD"] =="POST")
                     <nav>
                         <ul>
                             <li><a class="active" href="index.php">Home</a></li>
-                            <li><a href="">News</a></li>
-                            <li><a href="">About</a></li>
+                            <li><a href="#news">News</a></li>
+                            <li><a href="#about">About</a></li>
                             <li><a href="#contact">Contact</a></li>
                         </ul>
                     </nav>    
@@ -138,43 +138,42 @@ if ($_SERVER["REQUEST_METHOD"] =="POST")
             </section>
         </div>
         
-        <section class="about">
+        <section class="about" id="about">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12 col-md-4 col-lg-6">
                         <img src="images/slider-01.jpg" alt="">
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-6">
-                        <h3>Hello Friends!</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel beatae impedit, sunt necessitatibus
-                             voluptas sequi omnis tenetur exercitationem. Iure ameo quibusdam animi magnam corrupti? Necessitatibus,
-                              quidem vel maxime et consequatur accusamus.</p>
-                              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel beatae impedit, sunt necessitatibus
-                                voluptas sequi omnis tenetur exercitationem. Iure ameo quibusdam animi magnam corrupti? Necessitatibus,
-                                 quidem vel maxime et consequatur accusamus.</p>
+                        <?php
+                            $sql = "SELECT * FROM about_us";
+                            $result = $db_connect->Select($sql);
+                            if($result)
+                            {
+                        ?>
+                                <h3><?php echo $result[0]['heading']; ?></h3>
+                                <p><?php echo $result[0]['body']; ?></p>
+                        <?php
+                            }
+                        ?>
                         <hr>
-                        <div class="row">
-                            <div class="col-sm-12 col-md-6 col-lg-6">
-                                <p>70 Macember 1307</p>
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-lg-6">
-                                <p>Posted by: John Doe</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="news">
+        <section class="news" id="news">
             <div class="container">
                 <div class="row">
                     <?php
                         // Populate data from the database
-                        $sql = "SELECT * FROM posts";
+                        $sql = "SELECT * FROM posts ORDER BY id DESC";
                         $stmt = $db_connect->Select($sql);
                         foreach ($stmt as $post)
                         {
+                            $ano_sql = "SELECT COUNT(*) FROM reply WHERE post_id = :post_id";
+                            $num_comment = $db_connect->Select($ano_sql, ["post_id" => $post['id']]);
+                    
                     ?>
                         <div class="col-sm-12 col-md-4 col-lg-4">
                             <div class="news-item">
@@ -184,7 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] =="POST")
                                 <div class="caption">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-6 col-lg-6">
-                                            <p><i class="fa fa-comment"></i> 90 comments</p>
+                                            <p><i class="fa fa-comment"></i> <?php echo $num_comment[0]["COUNT(*)"]; ?> comments</p>
                                         </div>
                                         <div class="col-sm-12 col-md-6 col-lg-6">
                                             <p><?php echo date("F j, Y ", strtotime($post['created_at'])); ?></p>
@@ -202,8 +201,8 @@ if ($_SERVER["REQUEST_METHOD"] =="POST")
                                         echo substr_replace($post['title'], "..", $limit);
                                     }
                                     ?>
-                                </a></h4>
-                                    <p><?php echo substr_replace($post['body'], "...", 90); ?></p>
+                                    </a></h4>
+                                    <div><?php echo substr_replace($post['body'], "...", 90); ?></div>
                                     <a href="single_post.php?title=<?php echo $post['slug']?>" class="btn">Read more</a>
                                 </div>
                             </div>
@@ -256,16 +255,16 @@ if ($_SERVER["REQUEST_METHOD"] =="POST")
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-4">
                         <h4>Links</h4>
-                        <p><a href="#donation">blog</a></p>
-                        <p><a href="#causes">news</a></p>
+                        <p><a href="#about">About Us</a></p>
+                        <p><a href="#news">news</a></p>
                         <p><a href="#contact">Contact Us</a></p>
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-4">
                         <h4>Contact Us</h4>
-                        <p><a><i class="fa fa-facebook"></i> @/facebook/jofedo.com</a></p>
-                        <p><a><i class="fa fa-twitter"></i> @jofedo</a></p>
+                        <p><a><i class="fa fa-facebook"></i> @ facebook/jofedo.com</a></p>
+                        <p><a><i class="fa fa-twitter"></i> @ jofedo</a></p>
                         <p><a><i class="fa fa-phone"></i> 000 0000 000</a></p>
-                        <p><a><i class="fa fa-google"></i> jofedo@sosi.com</a></p>
+                        <p><a><i class="fa fa-google"></i> jofedo@jofedo.com</a></p>
                     </div>
                 </div>    
             </div>

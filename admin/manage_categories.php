@@ -13,31 +13,24 @@ if(!isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] !== true))
 	header("location:adminlogin.php");
 }
 
-$title = "";
-$image = "";
-$body = "";
-
+$name = "";
 $msg = "";
-$image_required = 'required';
 
 if (isset($_GET['id']) && (trim($_GET['id']) != ''))
 {
-    $image_required = '';
     $id = trim($_GET['id']);
 
     // Populate data from database
-    $sql = "SELECT * FROM posts WHERE id = :id ";
+    $sql = "SELECT * FROM topics WHERE id = :id ";
     $stmt = $db_connect->Select($sql, ["id" => $id]);
 
     if ($stmt)
     {
-        $title = $stmt[0]['title'];    
-        $image = $stmt[0]['image'];    
-        $body = $stmt[0]['body'];    
+        $name = $stmt[0]['name'];  
     }
     else
     {
-        header("location: posts.php");
+        header("location: categories.php");
         die();            
     }
 
@@ -48,17 +41,12 @@ if (isset($_GET['id']) && (trim($_GET['id']) != ''))
 
 if(isset($_POST['submit']))
 {
-    $title = trim($_POST['title']);
-    $slug = slug($title);
-    $body = trim($_POST['body']);
+    $name = trim($_POST['name']);
+    $slug = slug($name);
 
-    if ($_FILES['image']['type'] != '' && $_FILES['image']['type'] != 'image/png' && $_FILES['image']['type'] != 'image/jpg' && $_FILES['image']['type'] != 'image/jpeg')
-    {
-        $msg = "Please select only png, jpg and jpeg formats.";
-    }
     if (empty($slug))
     {
-        $msg = "Please provide a better post title";
+        $msg = "Please provide a better category name!";
     }
 
     if ($msg == "")
@@ -66,45 +54,25 @@ if(isset($_POST['submit']))
         if (isset($_GET['id']) && (trim($_GET['id']) != ''))
         {
             $id = trim($_GET['id']);
-
-            if ($_FILES['image']['name'] != '')
-            {
-                $image = rand(111111111, 999999999) . '_' . $_FILES['image']['name'];
-                move_uploaded_file($_FILES['image']['tmp_name'], "../images/" . $image);
-
                 // Execute an update statement
-                $sql = "UPDATE posts SET title = :title, body = :body, slug = :slug, image = :image WHERE id = :id ";
-                $stmt = $db_connect->Update($sql, ['title' => $title, 'body' => $body, 'slug' => $slug, 'image' => $image, 'id' => $id]);
+                $sql = "UPDATE topics SET name = :name, slug = :slug WHERE id = :id ";
+                $stmt = $db_connect->Update($sql, ['name' => $name, 'slug' => $slug, 'id' => $id]);
 
                 // Close statement
                 unset($stmt);
-            }
-            else
-            {
-                // Execute an update statement
-                $sql = "UPDATE posts SET title = :title, body = :body, slug = :slug WHERE id = :id ";
-                $stmt = $db_connect->Update($sql, ['title' => $title, 'body' => $body, 'slug' => $slug, 'id' => $id]);
-
-                // Close statement
-                unset($stmt);
-            }
         }
         else
-        {
-            $user_id = $_SESSION['id'];
-            $image = rand(111111111, 999999999) . '_' . $_FILES['image']['name'];
-            move_uploaded_file($_FILES['image']['tmp_name'], "../images/" . $image);
-            
+        {            
             // Execute an insert statement
-            $sql = "INSERT INTO posts (title, body, slug, image) VALUES (:title, :body, :slug, :image)";
-            $stmt = $db_connect->Insert($sql, ['title' => $title, 'body' => $body, 'slug' => $slug, 'image' => $image]);
+            $sql = "INSERT INTO topics (name, slug) VALUES (:name, :slug)";
+            $stmt = $db_connect->Insert($sql, ['name' => $name, 'slug' => $slug]);
 
             // Close statement
             unset($stmt);
         }
         header("location: posts.php");
-        die();        
-    }
+        die();
+    }     
 }
 
 unset($pdo);
@@ -162,10 +130,10 @@ unset($pdo);
                     </div>
                     <ul class="list-unstyled components">
                         <li>
-                            <a href="categories.php">Categories</a>
+                            <a href="categories.php" class="active">Categories</a>
                         </li>
                         <li>
-                            <a href="posts.php" class="active">Posts</a>
+                            <a href="posts.php">Posts</a>
                         </li>
                         <li>
                             <a href="contact_us.php">Contact Us</a>
@@ -186,7 +154,7 @@ unset($pdo);
                     </nav>
                     <div class="container">
                     <div class="title">
-                        <h5>Add Post</h5>
+                        <h5>Add Category</h5>
                     </div>
 
                         <div class="col-sm-12 col-md-12 col-lg-12 cat-block">
@@ -194,16 +162,8 @@ unset($pdo);
                             <form method="post" enctype="multipart/form-data">
                                 <span class="help-block" style="color:red;"><?php echo $msg; ?></span>
                                 <div class="form-group">
-                                    <label for="title" class="form-control-label">Post Title</label>
-                                    <input type="text" name="title" class="form-control" value="<?php echo $title ?>" placeholder="Enter post title" required/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="image" class="form-control-label">Image</label>
-                                    <input type="file" name="image" class="form-control" <?php echo $image_required ?>/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="body" class="form-control-label">Body</label>
-                                    <textarea name="body" row="10" cols="80" class="form-control" placeholder="Enter post body" required><?php echo $body ?></textarea>
+                                    <label for="name" class="form-control-label">Category</label>
+                                    <input type="text" name="name" class="form-control" value="<?php echo $name ?>" placeholder="Enter category name" required/>
                                 </div>
                                 <button type="submit" name="submit" class="btn btn-warning btn-block">Submit</button>
                             </form>

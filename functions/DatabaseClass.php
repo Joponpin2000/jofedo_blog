@@ -59,7 +59,7 @@ class DatabaseClass
                 echo "Oops! Something went wrong. Please try again later.";
             }
         }
-    }    
+    }
 }
 
 ?>

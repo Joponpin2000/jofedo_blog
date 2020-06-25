@@ -9,7 +9,7 @@ a:hover {
 }
 
 .bg {
-    background: rgba(248, 248, 248, 0.8) url("../images/slider3.jpg") no-repeat fixed center top / cover;
+    background: rgba(248, 248, 248, 0.8) url("../images/slider10.jpg") no-repeat fixed center top / cover;
 }
 
 header {
@@ -179,13 +179,83 @@ section {
     margin-bottom: 40px;
 }
 
+.single .post-information h2 {
+  color: #363636;
+  font-size: 22px;
+  text-transform: uppercase;
+}
+
+.single .post-information {
+    padding: 20px 0;
+}
+
+.single .post-information .entry-meta span a {
+    color: #444;
+    display: inline-block;
+    padding: 10px 0;
+}
+  
+.single .post-information .entry-meta span a:hover {
+    color: #40c4ff;
+}
+
+.single .main-posts .entry-meta {
+    border-bottom: 1px solid #ccc;
+    margin: 20px 0;
+}
+
+.single .main-posts .entry-meta span {
+    margin-right: 10px;
+    color: #444;
+}
+
+.post-information .entry-meta span i {
+    padding: 0 10px;
+}
+
+.single .post-information .entry-content>p {
+    color: #444;
+}
+    
 .single img {
     max-width: 100%;
     height: 500px;
 }
 
+
+.single .comment-list .comments-heading h3, .single h3.comment-reply-title {
+    border-bottom: 1px solid #e8e8e9;
+    color: #444;
+    font-size: 18px;
+    margin: 0 0 20px;
+    padding: 0 0 5px;
+    text-transform: uppercase;
+} 
+
+.single .comment-list img {
+    height: 40px;
+}
+
+.single .side-posts h4 {
+    border-bottom: 1px solid #ddd;
+    color: #444;
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    padding: 15px 10px;
+    text-transform: uppercase;
+}
+
+.single .side-posts {
+    background: #f9f9f9 none repeat scroll 0 0;
+    margin-bottom: 30px;
+    overflow: hidden;
+    padding-bottom: 20px;
+}
+
 .single .side-posts img {
     height: auto;
+    padding: 0 5px;
 }
 
 .single .side-posts .btn {
@@ -199,6 +269,28 @@ section {
 .single .side-posts .btn:hover {
     background-color: #40c4ff;
 }
+
+
+.single .side-posts li {
+    border-bottom: 1px solid #ddd;
+    display: block;
+  }
+
+.single .side-posts h5 a {
+    color: #444;
+}
+
+.single .side-posts h5 a:hover {
+    color: #40c4ff;
+}
+
+.single .side-posts ul li a {
+    color: #444;
+    display: block;
+    font-size: 14px;
+    padding: 10px;
+    text-transform: capitalize;
+}  
 
 /*==================================================================
 ============== reply ========================================*/
@@ -302,9 +394,9 @@ section {
 .dmtop {
     background-color: #40c4ff;
     z-index: 100;
-    width: 50px;
-    height: 50px;
-    line-height: 47px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
     position: fixed;
     bottom: -100px;
     border-radius: 3px;

@@ -20,7 +20,7 @@ if (isset($_GET['type']) && trim($_GET['type']) != '')
         $id = trim($_GET['id']);
         
         // Execute a Delete statement
-        $sql = "DELETE FROM posts WHERE id = :id";
+        $sql = "DELETE FROM topics WHERE id = :id";
         $stmt = $db_connect->Remove($sql, ['id' => $id]);
 
         // Close statement
@@ -29,7 +29,7 @@ if (isset($_GET['type']) && trim($_GET['type']) != '')
 }
 
 // Populate data from database
-$sql = "SELECT * FROM posts ORDER BY id DESC";
+$sql = "SELECT * FROM topics ORDER BY id DESC";
 $result = $db_connect->Select($sql);
 ?>
 
@@ -83,10 +83,10 @@ $result = $db_connect->Select($sql);
                     </div>
                     <ul class="list-unstyled components">
                         <li>
-                            <a href="categories.php">Categories</a>
+                            <a href="categories.php" class="active">Categories</a>
                         </li>
                         <li>
-                            <a href="posts.php" class="active">Posts</a>
+                            <a href="posts.php">Posts</a>
                         </li>
                         <li>
                             <a href="contact_us.php">Contact Us</a>
@@ -106,8 +106,8 @@ $result = $db_connect->Select($sql);
                         </div>
                     </nav>
                     <div class="title">
-                        <h3>Posts</h3>
-                        <h5><a href="manage_posts.php" style="text-decoration: underline; color: #7386D5;">Add Post</a></h5>
+                        <h3>Categories</h3>
+                        <h5><a href="manage_categories.php" style="text-decoration: underline; color: #7386D5;">Add Category</a></h5>
                     </div>
                     <?php
                         if ($result)
@@ -119,9 +119,7 @@ $result = $db_connect->Select($sql);
                                         <tr>
                                             <th>#</th>
                                             <th>ID</th>
-                                            <th>Post Title</th>
-                                            <th>Body</th>
-                                            <th>Image</th>
+                                            <th>Category</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -134,12 +132,10 @@ $result = $db_connect->Select($sql);
                                                 <tr>
                                                     <td><?php echo $i ?></td>
                                                     <td><?php echo $row['id'] ?></td>
-                                                    <td><?php echo $row['title'] ?></td>
-                                                    <td><?php echo substr_replace($row['body'], "...", 100); ?></td>
-                                                    <td><img src="<?php echo "../images/" . $row['image']?>" style="width: 40px; height: 30px"/></td>
+                                                    <td><?php echo $row['name'] ?></td>
                                                     <td style="text-align: right;">
                                                         <?php
-                                                        echo "<span class='sett edit'><a href='manage_posts.php?id=" . $row['id'] .  "'>Edit</a></span>";
+                                                        echo "<span class='sett edit'><a href='manage_categories.php?id=" . $row['id'] .  "'>Edit</a></span>";
 
                                                         echo "&nbsp;<span class='sett delete'><a href='?type=delete&id=" . $row['id'] .  "'>Delete</a><span>";
                                                         ?>
@@ -157,7 +153,7 @@ $result = $db_connect->Select($sql);
                         else
                         {
                     ?>
-                            <h5 style="color: red;">No posts yet!</h5>
+                            <h5 style="color: red;">No Categories yet!</h5>
                     <?php
                         }
                     ?>
