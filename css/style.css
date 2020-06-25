@@ -294,6 +294,33 @@ section {
 }  
 
 /*==================================================================
+==============CATEGORY ========================================*/
+
+.single .entry-content .btn {
+    border: 1px solid #40c4ff;
+    border-radius: 30px;
+    color: #444;
+    background-color: transparent;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 0.4s ease 0s;
+}
+  
+.single .entry-content .btn:hover {
+    background-color: #40c4ff;
+    color: #fff;
+    border-color: #40c4ff;
+}
+
+
+
+
+
+/*==================================================================
 ============== reply ========================================*/
 
 .reply .btn {

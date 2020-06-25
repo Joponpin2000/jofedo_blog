@@ -29,7 +29,7 @@ if (isset($_GET['type']) && trim($_GET['type']) != '')
 }
 
 // Populate data from database
-$sql = "SELECT * FROM posts ORDER BY id DESC";
+$sql = "SELECT posts.*, topics.name FROM posts, topics WHERE posts.category_id=topics.id ORDER BY posts.id DESC";
 $result = $db_connect->Select($sql);
 ?>
 
@@ -119,6 +119,7 @@ $result = $db_connect->Select($sql);
                                         <tr>
                                             <th>#</th>
                                             <th>ID</th>
+                                            <th>Category</th>
                                             <th>Post Title</th>
                                             <th>Body</th>
                                             <th>Image</th>
@@ -134,6 +135,7 @@ $result = $db_connect->Select($sql);
                                                 <tr>
                                                     <td><?php echo $i ?></td>
                                                     <td><?php echo $row['id'] ?></td>
+                                                    <td><?php echo $row['name'] ?></td>
                                                     <td><?php echo $row['title'] ?></td>
                                                     <td><?php echo substr_replace($row['body'], "...", 100); ?></td>
                                                     <td><img src="<?php echo "../images/" . $row['image']?>" style="width: 40px; height: 30px"/></td>
@@ -181,4 +183,4 @@ $result = $db_connect->Select($sql);
 
             <script src="../js/custom.js"></script>
     </body>
-</html
+</html>

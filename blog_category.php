@@ -4,8 +4,6 @@ require_once('functions/DatabaseClass.php');
 
 
 $msg = "";
-$name = $email = $website = $message = "";
-$name_err = $email_err = $message_err = "";
 
 
 if(isset($_GET['title']))
@@ -13,21 +11,22 @@ if(isset($_GET['title']))
     $slug = trim($_GET['title']);
     $db_connect = new DatabaseClass("localhost", "blog", "root", "");
 
-    $sql = "SELECT * FROM posts WHERE slug = :slug";
+    $sql = "SELECT * FROM topics WHERE slug = :slug";
     $blog = $db_connect->Select($sql, ["slug" => $slug]);
-
-
     if ($blog)
     {
         // Populate data from the database
+        $select = "SELECT * FROM posts WHERE category_id = :category_id";
+        $blogcat = $db_connect->Select($select, ["category_id" => $blog[0]['id']]);
+
         $query = "SELECT * FROM posts";
         $posts = $db_connect->Select($query);
 
         $sql = "SELECT * FROM reply WHERE post_id = :post_id ORDER BY id DESC";
-        $result = $db_connect->Select($sql, ["post_id" => $blog[0]['id']]);
+        $result = $db_connect->Select($sql, ["post_id" => $blogcat[0]['id']]);
 
         $ano_sql = "SELECT COUNT(*) FROM reply WHERE post_id = :post_id";
-        $num_comment = $db_connect->Select($ano_sql, ["post_id" => $blog[0]['id']]);
+        $num_comment = $db_connect->Select($ano_sql, ["post_id" => $blogcat[0]['id']]);
 
     }
     else
@@ -103,7 +102,7 @@ if(isset($_GET['title']))
             <!-- CONTENT -->
             <section class="onboard">
                 <div class="container">
-                <h1>JOFEDO<span>.COM</span></h1>
+                    <h1>JOFEDO<span>.COM</span></h1>
                     <h2>Professional Blog Page<br></h3>
                 </div>
             </section>
@@ -112,83 +111,22 @@ if(isset($_GET['title']))
         <div class="row" style="width: 100%">
             <div class="col-sm-8 col-md-8 col-lg-8">
                 <div class="main-posts">
-                    <img src="<?php echo "images/" . $blog[0]["image"]; ?>" style="margin-bottom: 20px;"/>
+                    <img src="<?php echo "images/" . $blogcat[0]["image"]; ?>" style="margin-bottom: 20px;"/>
                     <div class="post-information">
-                        <h2><?php echo $blog[0]['title']; ?></h2>
+                        <h2><?php echo $blogcat[0]['title']; ?></h2>
                         <div class="entry-meta">
                             <small>
                                 <span class="author-meta"><i class="fa fa-user"></i> admin </span>
-                                <span> <i class="fa fa-clock-o"> </i> <?php echo date("F j, Y ", strtotime($blog[0]['created_at'])); ?></span>
+                                <span> <i class="fa fa-clock-o"> </i> <?php echo date("F j, Y ", strtotime($blogcat[0]['created_at'])); ?></span>
                                 <span> <i class="fa fa-comments-o"> </i> <a href="#comment-list"><?php echo $num_comment[0]["COUNT(*)"]; ?> comments</a></span>
                             </small>
                         </div>
                         <div class="entry-content">
-                            <?php echo $blog[0]['body']; ?>
+                            <div><?php echo substr_replace($blogcat[0]['body'], "...", 90); ?></div>
+                            <a href="single_post.php?title=<?php echo $blogcat[0]['slug']?>" class="btn">Read more</a>
                         </div>
                     </div>
                 </div>
-                <div class="comment-list" id="comment-list">
-                    <div class="comments-heading">
-                        <h3><?php echo $num_comment[0]["COUNT(*)"]; ?> comments</h3>
-                    </div>
-                    <?php
-                        foreach ($result as $reply)
-                        {
-                    ?>
-                            <div class="row" style="margin-bottom: 20px;">
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                    <img src="images/avatar.jpg"/>
-                                </div>
-                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
-                                    <div style="margin-bottom: 5px;"><b><?php echo $reply['name']; ?></b> 
-                                    <small><?php echo date("F j, Y", strtotime($reply['added_on'])) . " at " . date("g:i a", strtotime($reply['added_on'])); ?></small></div>
-                                    <div><?php echo $reply['reply']; ?></div>
-                                </div>
-                            </div>
-                    <?php
-                        }
-                    ?>
-                </div>
-                <div class="reply">
-                    <h3 class="comment-reply-title">Leave a Reply </h3>
-                    <small>Your email address will not be published. Required fields are marked *</small>
-                    <form method="POST" action="validate_comment.php" role="form">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <div class="form-group">
-                                    <label for="name">Name *</label>
-                                    <input class="form-control" name="name" value="<?php echo $name; ?>" type="text" required>
-                                    <span class="help-block"><?php echo $name_err; ?></span>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <div class="form-group">
-                                    <label for="email">Email *</label>
-                                    <input class="form-control" name="email" type="text" value="<?php echo $email; ?>" required>
-                                    <span class="help-block"><?php echo $email_err; ?></span>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                <div class="form-group">
-                                    <label for="website">Website</label>
-                                    <input class="form-control" name="website" type="text" value="<?php echo $website; ?>">
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                <div class="form-group">
-                                    <label for="message">Reply *</label>
-                                    <textarea class="form-control" name="message" value="<?php echo $message; ?>" required></textarea>
-                                    <span class="help-block"><?php echo $message_err; ?></span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <input type="hidden" name="post_id" value="<?php echo $blog[0]['id']; ?>">
-                                <input name="submit" class="btn" type="submit" value="Post Comment" />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
             </div>
             <div class="col-sm-4 col-md-4 col-lg-4">
                 <div class="side-posts">
@@ -222,7 +160,7 @@ if(isset($_GET['title']))
                             {
                         ?>
                             <li>
-                                <a href="blog_category.php?title=<?php echo $row['slug']; ?>"><?php echo $row['name']; ?></a>
+                                <a href="blog_category.php"><?php echo $row['name']; ?></a>
                             </li>
                         <?php
                             }

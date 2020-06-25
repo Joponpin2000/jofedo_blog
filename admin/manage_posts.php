@@ -16,6 +16,7 @@ if(!isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] !== true))
 $title = "";
 $image = "";
 $body = "";
+$category = "";
 
 $msg = "";
 $image_required = 'required';
@@ -31,6 +32,7 @@ if (isset($_GET['id']) && (trim($_GET['id']) != ''))
 
     if ($stmt)
     {
+        $category = $stmt[0]['category_id'];
         $title = $stmt[0]['title'];    
         $image = $stmt[0]['image'];    
         $body = $stmt[0]['body'];    
@@ -51,6 +53,7 @@ if(isset($_POST['submit']))
     $title = trim($_POST['title']);
     $slug = slug($title);
     $body = trim($_POST['body']);
+    $category = trim($_POST['category_id']);
 
     if ($_FILES['image']['type'] != '' && $_FILES['image']['type'] != 'image/png' && $_FILES['image']['type'] != 'image/jpg' && $_FILES['image']['type'] != 'image/jpeg')
     {
@@ -96,8 +99,8 @@ if(isset($_POST['submit']))
             move_uploaded_file($_FILES['image']['tmp_name'], "../images/" . $image);
             
             // Execute an insert statement
-            $sql = "INSERT INTO posts (title, body, slug, image) VALUES (:title, :body, :slug, :image)";
-            $stmt = $db_connect->Insert($sql, ['title' => $title, 'body' => $body, 'slug' => $slug, 'image' => $image]);
+            $sql = "INSERT INTO posts (title, body, slug, image, category_id) VALUES (:title, :body, :slug, :image, :category_id)";
+            $stmt = $db_connect->Insert($sql, ['title' => $title, 'body' => $body, 'slug' => $slug, 'image' => $image, 'category_id' => $category]);
 
             // Close statement
             unset($stmt);
@@ -193,6 +196,23 @@ unset($pdo);
                             <div class="form-block">
                             <form method="post" enctype="multipart/form-data">
                                 <span class="help-block" style="color:red;"><?php echo $msg; ?></span>
+                                <div class="form-group">
+                                    <label for="category" class="form-control-label">Category</label>
+                                    <select class="form-control" name="category_id">
+                                        <option>Select Category</option>
+                                        <?php
+                                            $ask = "SELECT id, name FROM topics ORDER BY name ASC";
+                                            $rows = $db_connect->Select($ask);
+
+                                            foreach ($rows as $row)
+                                            {
+                                        ?>
+                                                <option value="<?php echo $row['id']; ?>"><?php echo $row['name'] ?></option>
+                                        <?php
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
                                 <div class="form-group">
                                     <label for="title" class="form-control-label">Post Title</label>
                                     <input type="text" name="title" class="form-control" value="<?php echo $title ?>" placeholder="Enter post title" required/>
