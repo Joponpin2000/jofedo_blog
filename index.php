@@ -130,10 +130,8 @@ if ($_SERVER["REQUEST_METHOD"] =="POST")
             <!-- CONTENT -->
             <section class="onboard">
                 <div class="container">
-                    <h1>Today's <span>Inspiration</span></h1>
-                    <h2>Lorem ipsum dolor, sit amet consectetur adipisicing elit.<br>
-                         Sunt maxime debitis ex magni quisquam<br></h3>
-                    <h4><span> - John Doe</h4><span></h4>
+                    <h1>JOFEDO<span>.COM</span></h1>
+                    <h2>Professional Blog Page<br></h3>
                 </div>
             </section>
         </div>

@@ -91,8 +91,8 @@ if(isset($_GET['title']))
                     <nav>
                         <ul>
                             <li><a href="index.php">Home</a></li>
-                            <li><a href="">News</a></li>
-                            <li><a href="">About</a></li>
+                            <li><a href="index#news">News</a></li>
+                            <li><a href="index#about">About</a></li>
                             <li><a href="index.php#contact">Contact</a></li>
                         </ul>
                     </nav>    
@@ -103,10 +103,8 @@ if(isset($_GET['title']))
             <!-- CONTENT -->
             <section class="onboard">
                 <div class="container">
-                    <h1>Today's <span>Inspiration</span></h1>
-                    <h2>Lorem ipsum dolor, sit amet consectetur adipisicing elit.<br>
-                         Sunt maxime debitis ex magni quisquam<br></h3>
-                    <h4><span> - John Doe</h4><span></h4>
+                <h1>JOFEDO<span>.COM</span></h1>
+                    <h2>Professional Blog Page<br></h3>
                 </div>
             </section>
         </div>
@@ -217,27 +215,18 @@ if(isset($_GET['title']))
                 <div class="side-posts">
                         <h4>categories</h4>
                         <ul>
+                        <?php
+                            $sql = "SELECT * FROM topics";
+                            $result = $db_connect->Select($sql);
+                            foreach($result as $row)
+                            {
+                        ?>
                             <li>
-                                <a href="#">Portfolio</a>
+                                <a href="#"><?php echo $row['name']; ?></a>
                             </li>
-                            <li>
-                                <a href="#">Project</a>
-                            </li>
-                            <li>
-                                <a href="#">Design</a>
-                            </li>
-                            <li>
-                                <a href="#">wordpress</a>
-                            </li>
-                            <li>
-                                <a href="#">Joomla</a>
-                            </li>
-                            <li>
-                                <a href="#">Html</a>
-                            </li>
-                            <li>
-                                <a href="#">Website</a>
-                            </li>
+                        <?php
+                            }
+                        ?>
                         </ul>
                 </div>
                 <div class="side-posts">

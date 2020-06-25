@@ -80,6 +80,7 @@ section {
 ================ ONBOARDING =================================*/
 
 .onboard {
+    text-align: center;
     padding: 80px 0;
     color: white;
 }
