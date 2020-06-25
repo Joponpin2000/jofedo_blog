@@ -200,7 +200,7 @@ if ($_SERVER["REQUEST_METHOD"] =="POST")
                                     }
                                     ?>
                                     </a></h4>
-                                    <div><?php echo substr_replace($post['body'], "...", 90); ?></div>
+                                    <div style="word-break: break-all;"><?php echo substr_replace($post['body'], "...", 90); ?></div>
                                     <a href="single_post.php?title=<?php echo $post['slug']?>" class="btn">Read more</a>
                                 </div>
                             </div>

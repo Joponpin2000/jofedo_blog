@@ -122,7 +122,7 @@ if(isset($_GET['title']))
                                 <span> <i class="fa fa-comments-o"> </i> <a href="#comment-list"><?php echo $num_comment[0]["COUNT(*)"]; ?> comments</a></span>
                             </small>
                         </div>
-                        <div class="entry-content">
+                        <div class="entry-content" style="word-break: break-all;">
                             <?php echo $blog[0]['body']; ?>
                         </div>
                     </div>
